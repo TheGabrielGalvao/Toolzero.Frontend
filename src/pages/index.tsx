@@ -1,7 +1,7 @@
-import { SelectItem } from "@/lib/types";
-import * as React from "react";
+import React, { useState } from "react";
 import { CardElement, CardElementProps } from "../core/components/CardElement";
-import { SelectElement } from "../core/components/SelectElement";
+import { HeroElement } from "../core/components/HeroElement";
+import SearchBar from "../core/components/SearchBar";
 const IndexPage = () => {
   const toolList: CardElementProps[] = [
     {
@@ -9,52 +9,50 @@ const IndexPage = () => {
       description:
         "Contrary to popular belief, Lorem Ipsum is not simply random text.",
       route: "",
+      categoryId: "1",
     },
     {
       title: "Gerador de CPF",
       description:
         "Contrary to popular belief, Lorem Ipsum is not simply random text.",
       route: "",
+      categoryId: "1",
     },
     {
       title: "Gerador de CPF",
       description:
         "Contrary to popular belief, Lorem Ipsum is not simply random text.",
       route: "",
+      categoryId: "1",
     },
     {
-      title: "Gerador de CPF",
+      title: "Gerador de Nome",
       description:
         "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
+      route: "/tools/generators/nameGenerator",
+      categoryId: "1",
     },
   ];
+  const [selectedCategory, setSelectedCategory] = useState("0");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const categories: SelectItem[] = [
-    {
-      value: "0",
-      label: "Todas as Categorias",
-    },
-    {
-      value: "1",
-      label: "Financeiro",
-    },
-    {
-      value: "2",
-      label: "Trabalhista",
-    },
-    {
-      value: "3",
-      label: "Desenvolvimento",
-    },
-    {
-      value: "4",
-      label: "Geradores",
-    },
-  ];
+  const filteredToolList = toolList.filter((tool) => {
+    if (selectedCategory !== "0" && tool.categoryId !== selectedCategory) {
+      return false;
+    }
+
+    if (
+      searchTerm &&
+      !tool.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) {
+      return false;
+    }
+
+    return true;
+  });
   return (
     <div className="w-screen  flex flex-col justify-center items-center">
-      <section className="flex flex-col justify-center items-center w-full bg-primary h-80 gap-6">
+      <HeroElement>
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Tudo o que você precisa em um só lugar!
@@ -63,16 +61,23 @@ const IndexPage = () => {
             Selecione uma categoria e busque por ferramentas
           </p>
         </div>
-        <div className="w-96 flex justify-center items-center   h-16  ">
-          <SelectElement data={categories} label="Categorias" />
+        <div className="w-full flex justify-center items-center h-16 px-[32rem]">
+          {/* <SelectElement data={categories} label="Categorias" /> */}
+          <SearchBar
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
         </div>
-      </section>
+      </HeroElement>
       <section className="w-full flex gap-5 justify-center items-center px-96 mt-10">
-        {toolList.map((item) => (
+        {filteredToolList.map((item) => (
           <CardElement
             title={item.title}
             description={item.description}
             route={item.route}
+            categoryId={item.categoryId}
           />
         ))}
       </section>
