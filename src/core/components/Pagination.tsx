@@ -22,17 +22,19 @@ const Pagination: React.FC<PaginationProps> = ({
         <FiChevronLeft title="Página Anterior" size={32} />
       </button>
 
-      {Array.from({ length: totalPages }).map((_, idx) => (
-        <button
-          key={idx}
-          onClick={() => onPageChange(idx + 1)}
-          className={`px-3 py-2 mx-1 rounded ${
-            currentPage === idx + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
-        >
-          {idx + 1}
-        </button>
-      ))}
+      <div className="flex">
+        {Array.from({ length: totalPages }).map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => onPageChange(idx + 1)}
+            className={`px-3 py-2 mx-1 rounded ${
+              currentPage === idx + 1 ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+      </div>
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
