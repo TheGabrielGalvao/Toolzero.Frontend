@@ -8,7 +8,7 @@ export const HeroElement: React.FC<HTMLAttributes<HTMLElement>> = ({
     <section
       className={clsx(
         className,
-        "flex flex-col justify-center items-center w-full bg-primary h-80 gap-6"
+        "flex flex-col justify-center items-center w-screen bg-primary h-60 gap-6 overflow-hidden"
       )}
     >
       {children}

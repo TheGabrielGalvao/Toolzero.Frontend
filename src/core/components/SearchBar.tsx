@@ -39,20 +39,16 @@ const SearchBar: React.FC<SearchBarProps> = ({
   ];
 
   return (
-    <div className="flex w-full  h-14 ">
-      <div className="relative h-full">
+    <div className="flex flex-col md:flex-row w-full h-auto md:h-14">
+      <div className="relative w-full md:w-80 h-full mb-2 md:mb-0">
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="appearance-none bg-white pl-3 pr-10 py-2 border border-r-gray-100 h-full shadow-sm focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="appearance-none w-full bg-white pl-3 pr-10 py-2 border border-r-gray-100 h-full shadow-sm focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 md:rounded-l"
         >
           {categories.map((category) => (
-            <option
-              className="bg-gray-200 text-gray-900"
-              key={category.value}
-              value={category.value}
-            >
-              {category.label}
+            <option className="" key={category.value} value={category.value}>
+              <span className="flex p-4 h-16">{category.label}</span>
             </option>
           ))}
         </select>
@@ -65,6 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Buscar..."
+        autoFocus
         className="bg-white border-t border-b border-r rounded-r p-2 w-full focus:outline-none focus:border-blue-500"
       />
     </div>

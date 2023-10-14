@@ -1,9 +1,69 @@
 import React, { useState } from "react";
 import { CardElement, CardElementProps } from "../core/components/CardElement";
 import { HeroElement } from "../core/components/HeroElement";
+import Pagination from "../core/components/Pagination";
 import SearchBar from "../core/components/SearchBar";
+
+const ITEMS_PER_PAGE = 8;
+
 const IndexPage = () => {
   const toolList: CardElementProps[] = [
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de Nome",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "/tools/generators/nameGenerator",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de CPF",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "",
+      categoryId: "1",
+    },
+    {
+      title: "Gerador de Nome",
+      description:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      route: "/tools/generators/nameGenerator",
+      categoryId: "1",
+    },
     {
       title: "Gerador de CPF",
       description:
@@ -35,6 +95,12 @@ const IndexPage = () => {
   ];
   const [selectedCategory, setSelectedCategory] = useState("0");
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(toolList.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const filteredToolList = toolList.filter((tool) => {
     if (selectedCategory !== "0" && tool.categoryId !== selectedCategory) {
@@ -51,17 +117,18 @@ const IndexPage = () => {
     return true;
   });
   return (
-    <div className="w-screen  flex flex-col justify-center items-center">
+    <div className=" flex flex-col justify-center items-center overflow-x-hidden">
       <HeroElement>
-        <div className="flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+        <div className="flex flex-col justify-center items-center text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold tracking-tight text-gray-900">
             Tudo o que você precisa em um só lugar!
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
+
+          <p className="mt-6 text-sm sm:text-base md:text-lg text-gray-600">
             Selecione uma categoria e busque por ferramentas
           </p>
         </div>
-        <div className="w-full flex justify-center items-center h-16 px-[32rem]">
+        <div className="w-full flex justify-center items-center h-16 md:px-[32rem] sm:px-[8rem] px-4">
           {/* <SelectElement data={categories} label="Categorias" /> */}
           <SearchBar
             selectedCategory={selectedCategory}
@@ -71,15 +138,28 @@ const IndexPage = () => {
           />
         </div>
       </HeroElement>
-      <section className="w-full flex gap-5 justify-center items-center px-96 mt-10">
-        {filteredToolList.map((item) => (
-          <CardElement
-            title={item.title}
-            description={item.description}
-            route={item.route}
-            categoryId={item.categoryId}
-          />
-        ))}
+      <section className="flex flex-col justify-center items-center gap-4">
+        <div className="gap-4 justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-5">
+          {filteredToolList
+            .slice(
+              (currentPage - 1) * ITEMS_PER_PAGE,
+              currentPage * ITEMS_PER_PAGE
+            )
+            .map((item) => (
+              <CardElement
+                title={item.title}
+                description={item.description}
+                route={item.route}
+                categoryId={item.categoryId}
+              />
+            ))}
+        </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </section>
     </div>
   );

@@ -14,18 +14,18 @@ export const CardElement: React.FC<CardElementProps> = ({
   title,
   description,
   route = "#",
+  categoryId,
 }) => {
   return (
-    <Card className="cursor-pointer mt-6 w-96 hover:scale-110 rounded-md transition duration-300 border-t">
+    <Card className="cursor-pointer mt-6 w-[280px] h-[220px] hover:scale-110 rounded-md transition duration-300 border-t">
       <Link to={route}>
-        <CardBody className="flex flex-col gap-4 ">
+        <CardBody className="flex flex-col gap-4">
           <HiRocketLaunch className="w-12 h-12" />
           <Typography variant="h5" color="blue-gray" className="mb-2">
             {title}
           </Typography>
           <Typography>{description}</Typography>
         </CardBody>
-        {/* <CardFooter className="pt-0"></CardFooter> */}
       </Link>
     </Card>
   );
