@@ -3,7 +3,7 @@ import { CategoryModel, CategoryType } from "../model/Category.model";
 
 export const categoryMock: CategoryModel[] = [
   {
-    key: "0",
+    key: "1",
     name: "financial",
     label: "Financeiro",
     type: CategoryType["Ferramentas Online"],
@@ -11,21 +11,21 @@ export const categoryMock: CategoryModel[] = [
   },
 
   {
-    key: "1",
+    key: "2",
     name: "work",
     label: "Trabalhista",
     type: CategoryType["Ferramentas Online"],
     status: EGenericStatus.Ativo,
   },
   {
-    key: "2",
+    key: "3",
     name: "generators",
     label: "Geradores",
     type: CategoryType["Ferramentas Online"],
     status: EGenericStatus.Ativo,
   },
   {
-    key: "3",
+    key: "4",
     name: "calculators",
     label: "Calculadoras",
     type: CategoryType["Ferramentas Online"],

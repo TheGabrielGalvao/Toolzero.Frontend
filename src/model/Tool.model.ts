@@ -1,10 +1,11 @@
 import { EGenericStatus } from "@/core/types/Status";
-import { CategoryModel } from "./Category.model";
 
 export interface ToolModel {
   uuid?: string;
   name: string;
+  label?: string;
   description: string;
-  category: CategoryModel;
+  slug?: string;
+  categoryId: string;
   status: EGenericStatus;
 }

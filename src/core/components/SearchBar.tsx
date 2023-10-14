@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchTerm,
 }) => {
   const { data: categories } = useQuery(
-    ["contact"],
+    ["category"],
     CategoryService.getOptions,
     {
       retry: false,

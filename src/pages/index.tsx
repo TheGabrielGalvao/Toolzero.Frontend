@@ -1,115 +1,41 @@
 import React, { useState } from "react";
-import { CardElement, CardElementProps } from "../core/components/CardElement";
+import { useQuery } from "react-query";
+import { CardElement } from "../core/components/CardElement";
 import { HeroElement } from "../core/components/HeroElement";
 import Pagination from "../core/components/Pagination";
 import SearchBar from "../core/components/SearchBar";
+import { ToolModel } from "../model/Tool.model";
+import ToolService from "../service/ToolService";
 
 const ITEMS_PER_PAGE = 8;
 
 const IndexPage = () => {
-  const toolList: CardElementProps[] = [
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de Nome",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "/tools/generators/nameGenerator",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de Nome",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "/tools/generators/nameGenerator",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de CPF",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "",
-      categoryId: "1",
-    },
-    {
-      title: "Gerador de Nome",
-      description:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
-      route: "/tools/generators/nameGenerator",
-      categoryId: "1",
-    },
-  ];
   const [selectedCategory, setSelectedCategory] = useState("0");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(toolList.length / ITEMS_PER_PAGE);
+
+  const { data: toolList } = useQuery(["tool"], ToolService.getAll, {
+    retry: false,
+    enabled: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const totalPages = Math.ceil(
+    (toolList as ToolModel[])?.length / ITEMS_PER_PAGE
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const filteredToolList = toolList.filter((tool) => {
+  const filteredToolList = toolList?.filter((tool) => {
     if (selectedCategory !== "0" && tool.categoryId !== selectedCategory) {
       return false;
     }
 
     if (
       searchTerm &&
-      !tool.title.toLowerCase().includes(searchTerm.toLowerCase())
+      !tool.label?.toLowerCase().includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
@@ -140,19 +66,20 @@ const IndexPage = () => {
       </HeroElement>
       <section className="flex flex-col justify-center items-center gap-4">
         <div className="gap-4 justify-center items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-5">
-          {filteredToolList
-            .slice(
-              (currentPage - 1) * ITEMS_PER_PAGE,
-              currentPage * ITEMS_PER_PAGE
-            )
-            .map((item) => (
-              <CardElement
-                title={item.title}
-                description={item.description}
-                route={item.route}
-                categoryId={item.categoryId}
-              />
-            ))}
+          {filteredToolList &&
+            filteredToolList
+              .slice(
+                (currentPage - 1) * ITEMS_PER_PAGE,
+                currentPage * ITEMS_PER_PAGE
+              )
+              .map((item) => (
+                <CardElement
+                  title={item.label!}
+                  description={item.description}
+                  route={item.slug}
+                  categoryId={item.categoryId}
+                />
+              ))}
         </div>
 
         <Pagination
