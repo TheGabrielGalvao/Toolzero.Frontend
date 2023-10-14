@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@material-tailwind/react";
-import React from "react";
+import React, { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { NavBar } from "./NavBar";
 
 const theme = {
@@ -10,11 +11,17 @@ const theme = {
   },
 };
 
-export const AppProviders = ({ children }: HTMLElement) => {
+const queryClient = new QueryClient();
+
+interface GlobalProviderProps {
+  children?: ReactNode;
+}
+
+export const AppProviders = ({ children }: GlobalProviderProps) => {
   return (
     <ThemeProvider value={theme}>
       <NavBar />
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </ThemeProvider>
   );
 };

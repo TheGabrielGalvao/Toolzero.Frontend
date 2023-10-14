@@ -1,6 +1,7 @@
-import { SelectItem } from "@/lib/types";
 import React from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { useQuery } from "react-query";
+import CategoryService from "../../service/CategoryService";
 
 type SearchBarProps = {
   selectedCategory: string;
@@ -15,28 +16,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
   searchTerm,
   setSearchTerm,
 }) => {
-  const categories: SelectItem[] = [
+  const { data: categories } = useQuery(
+    ["contact"],
+    CategoryService.getOptions,
     {
-      value: "0",
-      label: "Todas as Categorias",
-    },
-    {
-      value: "1",
-      label: "Financeiro",
-    },
-    {
-      value: "2",
-      label: "Trabalhista",
-    },
-    {
-      value: "3",
-      label: "Desenvolvimento",
-    },
-    {
-      value: "4",
-      label: "Geradores",
-    },
-  ];
+      retry: false,
+      enabled: true,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   return (
     <div className="flex flex-col md:flex-row w-full h-auto md:h-14">
@@ -46,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="appearance-none w-full bg-white pl-3 pr-10 py-2 border border-r-gray-100 h-full shadow-sm focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 md:rounded-l"
         >
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <option className="" key={category.value} value={category.value}>
               <span className="flex p-4 h-16">{category.label}</span>
             </option>

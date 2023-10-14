@@ -17,7 +17,7 @@ export const CardElement: React.FC<CardElementProps> = ({
   categoryId,
 }) => {
   return (
-    <Card className="cursor-pointer mt-6 w-[280px] h-[220px] hover:scale-110 rounded-md transition duration-300 border-t">
+    <Card className="cursor-pointer mt-6 w-[220px] h-[220px] hover:scale-110 rounded-md transition duration-300 border-t">
       <Link to={route}>
         <CardBody className="flex flex-col gap-4">
           <HiRocketLaunch className="w-12 h-12" />
