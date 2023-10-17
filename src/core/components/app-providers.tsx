@@ -11,13 +11,12 @@ const theme = {
   },
 };
 
-const queryClient = new QueryClient();
-
 interface GlobalProviderProps {
   children?: ReactNode;
 }
 
 export const AppProviders = ({ children }: GlobalProviderProps) => {
+  const queryClient = new QueryClient();
   return (
     <ThemeProvider value={theme}>
       <NavBar />
